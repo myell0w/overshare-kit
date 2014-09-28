@@ -52,6 +52,10 @@
     [self.spinner setPosition:position];
 }
 
+- (OSKActivityIndicatorItemPosition)position {
+    return self.spinner.position;
+}
+
 - (void)startSpinning {
     [self.spinner startAnimating];
 }

@@ -135,6 +135,17 @@ extern NSString * const OSKPresentationOption_PresentationEndingHandler;
                               animated:(BOOL)animated
                                options:(NSDictionary *)options;
 
+/**
+ Dismisses the activity sheet.
+ 
+ @param animated Pass YES to animate the transition.
+ @param completion A block called after the sheet has been dismissed.
+ 
+ @note if an instance of `OSKPresentationEndingHandler` was specified in the options while presenting,
+ it is called with the presentation ending `OSKPresentationEnding_Cancelled`.
+ */
+- (void)dismissActivitySheetAnimated:(BOOL)animated completion:(void(^)(void))completion;
+
 ///---------------------------------------------------
 /// @name Skipping the Built-In Activity Sheet
 ///---------------------------------------------------
@@ -292,6 +303,7 @@ extern NSString * const OSKPresentationOption_PresentationEndingHandler;
 - (NSString *)localizedText_Username;
 - (NSString *)localizedText_Email;
 - (NSString *)localizedText_Password;
+- (NSString *)localizedText_1PasswordPrompt;
 - (NSString *)localizedText_Accounts;
 - (NSString *)localizedText_SignOut;
 - (NSString *)localizedText_SignIn;

@@ -120,7 +120,7 @@
     return content;
 }
 
-+ (instancetype)contentFromMicroblogPost:(NSString *)text authorName:(NSString *)authorName canonicalURL:(NSString *)canonicalURL images:(NSArray *)images {
++ (instancetype)contentFromMicroblogPost:(NSString *)text title:(NSString *)title authorName:(NSString *)authorName canonicalURL:(NSString *)canonicalURL images:(NSArray *)images {
     OSKShareableContent *content = [[OSKShareableContent alloc] init];
     
     content.title = [NSString stringWithFormat:@"Post by %@: “%@”", authorName, text];
@@ -144,7 +144,7 @@
     content.facebookItem = facebook;
     
     OSKMicroblogPostContentItem *microblogPost = [[OSKMicroblogPostContentItem alloc] init];
-    microblogPost.text = [NSString stringWithFormat:@"“%@” (Via @%@) %@ ", text, authorName, canonicalURL];
+    microblogPost.text = [NSString stringWithFormat:@"“%@” (Via %@) %@ ", text, authorName, canonicalURL];
     microblogPost.images = images;
     content.microblogPostItem = microblogPost;
     
@@ -165,8 +165,8 @@
     content.additionalItems = @[copyURLToPasteboard];
     
     OSKEmailContentItem *emailItem = [[OSKEmailContentItem alloc] init];
-    emailItem.body = [NSString stringWithFormat:@"“%@”\n\n(Via @%@)\n\n%@ ", text, authorName, canonicalURL];
-    emailItem.subject = @"Clipper Ships Sail On the Ocean";
+    emailItem.body = [NSString stringWithFormat:@"“%@”\n\n(Via %@)\n\n%@ ", text, authorName, canonicalURL];
+    emailItem.subject = title ?: [NSString stringWithFormat:@"Post by %@", authorName];
     emailItem.attachments = images.copy;
     content.emailItem = emailItem;
     
@@ -178,8 +178,8 @@
     if (URLforCanonicalURL) {
         OSKReadLaterContentItem *readLater = [[OSKReadLaterContentItem alloc] init];
         readLater.url = URLforCanonicalURL;
-        readLater.title = [NSString stringWithFormat:@"Post by %@", authorName];
         readLater.itemDescription = text;
+        readLater.title = title ?: [NSString stringWithFormat:@"Post by %@", authorName];
         content.readLaterItem = readLater;
         
         OSKLinkBookmarkContentItem *linkBookmarking = [[OSKLinkBookmarkContentItem alloc] init];
@@ -196,7 +196,7 @@
     }
     
     OSKToDoListEntryContentItem *toDoList = [[OSKToDoListEntryContentItem alloc] init];
-    toDoList.title = [NSString stringWithFormat:@"Look into message from %@", authorName];
+    toDoList.title = title ?: [NSString stringWithFormat:@"Look into message from %@", authorName];
     toDoList.notes = [NSString stringWithFormat:@"%@\n\n%@", text, canonicalURL];
     content.toDoListItem = toDoList;
     
